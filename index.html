@@ -1,112 +1,20 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content= 
-            "width=device-width, initial-scale=1.0"> 
-      
-    <title> 
-        Draw with the mouse in a HTML5 canvas 
-    </title> 
-      
-    <style> 
-        * { 
-            overflow: hidden; 
-        } 
-        body { 
-            text-align: center; 
-        } 
-        h1 { 
-            color: green; 
-        } 
-    </style> 
-
-<script type='text/javascript'>
-var canvas;
-var ctx;
-let coord = {x:0 , y:0};  
-let paint = false; 
-
-window.addEventListener('load', ()=>{ 
-        
-    resize(); // Resizes the canvas once the window loads 
-	
-	//mouse events
-    document.addEventListener('mousedown', startPainting); 
-    document.addEventListener('mouseup', stopPainting); 
-    document.addEventListener('mousemove', sketch); 
-	
-	//touchpad events
-	document.addEventListener('touchstart', startPainting);
-	document.addEventListener('touchend', stopPainting);
-	document.addEventListener('touchmove', sketch);
-	    
-	//window.addEventListener('resize', resize); 
-	
-	canvas = document.getElementById('canvas'); 
-	ctx = canvas.getContext('2d'); 
-}); 
-
-function resize(){ } 
-
-function getPosition(event){ 
-	if (event.toString().indexOf("MouseEvent")>0) {
-		coord.x = event.clientX - canvas.offsetLeft; 
-		coord.y = event.clientY - canvas.offsetTop; 
-	} else { 
-		console.log(event);
-		coord.x = event.touches[0].clientX - event.target.offsetLeft;
-		coord.y = event.touches[0].clientY - event.target.offsetTop;
-	}
-} 
-  
-// The following functions toggle the flag to start 
-// and stop drawing 
-function startPainting(event){ 
-  paint = true; 
-  getPosition(event); 
-} 
-function stopPainting(){ 
-  paint = false; 
-}  
-function sketch(event){ 
-  if (!paint) return; 
-  ctx.beginPath(); 
-    
-  ctx.lineWidth = 5; 
-   
-  // Sets the end of the lines drawn 
-  // to a round shape. 
-  ctx.lineCap = 'round'; 
-    
-  ctx.strokeStyle = 'green'; 
-      
-  // The cursor to start drawing 
-  // moves to this coordinate 
-  ctx.moveTo(coord.x, coord.y); 
-   
-  // The position of the cursor 
-  // gets updated as we move the 
-  // mouse around. 
-  getPosition(event); 
-   
-  // A line is traced from start 
-  // coordinate to this coordinate 
-  ctx.lineTo(coord.x , coord.y); 
-    
-  // Draws the line. 
-  ctx.stroke(); 
+<html>
+<head>
+<title>PAGULAYAN.NET</title>
+<script type="text/javascript">
+function fetchData() { 
+	let file = "data.txt"
+	fetch (file)
+	.then(x => x.text())
+	.then(y => document.getElementById("datatxt").innerHTML = y);
 }
 </script>
-</head> 
-<body> 
-	<div style="display:flex;width:100%;background-color:#f0f0f0;">
-		<button type="button" onclick="">New</button>
-		<button type="button" onclick="">Open</button>
-		<button type="button" onclick="">Save</button>
-		<button type="button" onclick="">Save As</button>		
+</head>
+<body>
+	<div width="100%">
+		<p>PAGULAYAN.NET - data.txt access</p>
+		<button type="button" onclick="fetchData();">Show data</button>
 	</div>
-    <canvas id="canvas" width="2000px" height="1080px"></canvas> 
-</body> 
-  
+	<div id="datatxt" width="400px"></div>
+</body>
 </html>
